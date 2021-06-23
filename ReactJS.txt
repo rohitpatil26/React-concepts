@@ -2,12 +2,12 @@
 Want to know basic and advanced concepts in ReactJS
 React:
 
-To create SPA web development framework. Creating indivisual component as required and merge them in single website that rendered in order that is added.
+To create SPA web development JS Library. Creating indivisual and reusable components as required and merge them in single website that rendered in order that is needed.
 
 --------------------React basic------------------------
 
-1) npm i -g create-react-app
-2) create-react-app react-complete-guide --script-version 1.1.5
+1) npm i -g create-react-app or npx create-react-app <<app_name>>
+2) create-react-app react-complete-guide 
 
 3) component code
 
