@@ -236,11 +236,13 @@ var classss = ['red', 'bold'];
 	3) 
 	
 	a) componentWillUnmount() {
-		
+		// here you will reset the state to initial
+		// remove added eventlistner
+		// reset / remove time interval
 	}
 		
 
-19) State for Functional components: 
+19) State for Functional components using hooks: 
 	import React, { useEffect } from 'react';
 	useEffect : this is from react 16, and helps to maintain life cycle hook like class by just this
 	
@@ -279,13 +281,15 @@ var classss = ['red', 'bold'];
 				clearTimeout(clearTime);
 			}
 		}, [])	
-	e) update only when props is updated
-
+		
+	e) update only when props is updated Memo uses memoisation (in simple words input is same the output will be return from cache)
+		
 		export default React.memo(<function_component_name>);
 
 20) Pure component:
 	shouldComponentUpdate(nextProps, nextState) {
 		//validating multiple props
+		//has shallow comparison only
 		if(this.props.person !== nextProps.person && this.props.changed !== nextProps.changed && this.props.show !== nextProps.show) {
 				return true;
 			} else {
@@ -345,6 +349,19 @@ var classss = ['red', 'bold'];
 			)
 			
 		}
+		
+		OR
+		
+		render() {
+			return (
+				<>
+					<p></p>
+					<span></span>
+				</>
+			)
+			
+		}
+
 		
 
 21) Higher Order components (HOC): 
@@ -419,6 +436,15 @@ Person.propTypes = {
     age: PropTypes.number,
     changed: PropTypes.func
 } 
+
+//setting up default props so that component wont fail
+Person.defaultProps = {
+    delete: (e)=>console.log(),
+    name: 'abc',
+    age: 0,
+    changed: (e)=>console.log()
+}
+
 export default Person;
 
 23) Ref: creating reference of element
@@ -524,7 +550,7 @@ ________________________________________________________________API Call________
 			})
 	}
 
-29) avoid ifinite loop while geting record and assin it into template:
+29) avoid infinite loop while geting record and assin it into template:
 
 	import axios from 'axios';
 	
@@ -694,7 +720,8 @@ ________________________________________________________________API Call________
 ___________________________________________________________________Routing_________________________________________________________________
 
 38) npm install --save react-router react-router-dom
-
+	reference : https://reactrouter.com/web/guides/quick-start
+	
 39) Configure Route in App.js
 		
 	import { BrowserRouter } from 'react-router-dom';
@@ -707,6 +734,18 @@ ___________________________________________________________________Routing______
 		)
 	}
 
+using Alias:
+
+	import { BrowserRouter as Router } from 'react-router-dom';
+
+		render() {
+			return (
+				<Router>
+					// entire app
+				</Router>
+			)
+		}
+		
 40) Setting up router 
 	
 	import { Route } from 'react-router-dom';
@@ -717,6 +756,38 @@ ___________________________________________________________________Routing______
 			<Route path="/home2" render={()=><h1>Home 2</h1>}/>
 		)
 	}
+
+also can have HOC as:
+
+	import React from 'react';
+	import { Route } from 'react-router-dom';
+
+	const LayoutRoute = ({ component: Component, layout: Layout, ...rest }) => {
+	  return <Route
+	    {...rest}
+	    render={props => {
+	    return  <Layout {...props}>
+		<Component {...props} />
+	      </Layout>
+	    }
+	  }
+	  />
+	};
+
+	export default LayoutRoute;
+	
+Usage :
+	<Switch>
+		<LayoutRoute
+		      exact
+		      path={'/home'}
+		      layout={<<Layout>>} // you can pass Layout wrapper component 
+		      component={<<ComponentName>>} //pass your component
+		      {...commonProps}
+		/>
+
+	</Switch>
+
 
 41) Route "exact" : exact path will getting loaded
 
@@ -755,7 +826,7 @@ ___________________________________________________________________Routing______
 	
 	<li> <Link to={{pathname: '/new-post', hash: "#submit", search: "?quick-submit=true"}}> New Post </Link> </li>
 
-45) porps in routed components: 
+45) props in routed components: 
 	
 	Posts.js
 
@@ -797,6 +868,7 @@ ___________________________________________________________________Routing______
 	}
 
 	export default withRouter(postDetails);
+	
 
 47) Creating relative path:
 
@@ -811,7 +883,7 @@ ___________________________________________________________________Routing______
 	
 	On this link active in anchor tag css class will be add "my-class" if custome class is not provided than "active" will be added
 
-50) Pass rout params:
+50) Pass route params:
 	
 	<Route path="/:id" exact component={ Posts }/>
 	
